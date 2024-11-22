@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Registros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .menu {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Menu de Cadastro</h1>
+    
+    <div class="menu">
+        <button onclick="menu()">Iniciar Cadastro</button>
+    </div>
+
+    <script>
+        // Função para iniciar o menu
+        function menu() {
+            let opcao;
+            do {
+                opcao = prompt("Escolha uma opção:\n1. Cadastrar Pessoas\n2. Cadastrar Alunos\n3. Cadastrar Pessoas (Altura)\n4. Cadastrar Funcionários\n5. Sair");
+                switch(opcao) {
+                    case "1":
+                        cadastrarPessoas();
+                        break;
+                    case "2":
+                        menuAlunos();
+                        break;
+                    case "3":
+                        menuAltura();
+                        break;
+                    case "4":
+                        menuFuncionario();
+                        break;
+                    case "5":
+                        alert("Saindo...");
+                        break;
+                    default:
+                        alert("Opção inválida!");
+                }
+            } while (opcao !== "5");
+        }
+
+        // Cadastro de Pessoas
+        let pessoas = [];
+        function cadastrarPessoas() {
+            for (let i = 0; i < 10; i++) {
+                let nome = prompt(`Digite o nome da pessoa ${i + 1}:`);
+                let endereco = prompt(`Digite o endereço da pessoa ${i + 1}:`);
+                let telefone = prompt(`Digite o telefone da pessoa ${i + 1}:`);
+                
+                pessoas.push({ nome, endereco, telefone });
+            }
+        }
+
+        // Cadastro de Alunos
+        let alunos = [];
+        function cadastrarAlunos() {
+            for (let i = 0; i < 20; i++) {
+                let nome = prompt(`Digite o nome do aluno ${i + 1}:`);
+                let nota1 = parseFloat(prompt(`Digite a nota 1 do aluno ${i + 1}:`));
+                let nota2 = parseFloat(prompt(`Digite a nota 2 do aluno ${i + 1}:`));
+                
+                let media = (nota1 + nota2) / 2;
+                alunos.push({ nome, nota1, nota2, media });
+            }
+        }
+
+        // Menu para Alunos
+        function menuAlunos() {
+            let opcao;
+            do {
+                opcao = prompt("Escolha uma opção:\n1. Cadastrar Alunos\n2. Pesquisar Aluno\n3. Exibir Alunos\n4. Sair");
+                switch(opcao) {
+                    case "1":
+                        cadastrarAlunos();
+                        break;
+                    case "2":
+                        let nomeAluno = prompt("Digite o nome para pesquisar:");
+                        pesquisarAluno(nomeAluno);
+                        break;
+                    case "3":
+                        exibirAlunos();
+                        break;
+                    case "4":
+                        alert("Saindo...");
+                        break;
+                    default:
+                        alert("Opção inválida!");
+                }
+            } while (opcao !== "4");
+        }
+
+        // Pesquisa Aluno
+        function pesquisarAluno(nome) {
+            let aluno = alunos.find(a => a.nome.toLowerCase() === nome.toLowerCase());
+            if (aluno) {
+                let status = aluno.media >= 5 ? "Aprovado" : "Reprovado";
+                alert(`Nome: ${aluno.nome}\nMédia: ${aluno.media}\nStatus: ${status}`);
+            } else {
+                alert("Aluno não encontrado!");
+            }
+        }
+
+        // Exibir Alunos
+        function exibirAlunos() {
+            let lista = alunos.map(aluno => {
+                let status = aluno.media >= 5 ? "Aprovado" : "Reprovado";
+                return `Nome: ${aluno.nome}\nMédia: ${aluno.media}\nStatus: ${status}`;
+            }).join("\n\n");
+            
+            alert(lista);
+        }
+
+        // Cadastro de Pessoas com Altura
+        let pessoasAltura = [];
+        function cadastrarAltura() {
+            for (let i = 0; i < 15; i++) {
+                let nome = prompt(`Digite o nome da pessoa ${i + 1}:`);
+                let altura = parseFloat(prompt(`Digite a altura da pessoa ${i + 1}:`));
+                
+                pessoasAltura.push({ nome, altura });
+            }
+        }
+
+        // Menu para Altura
+        function menuAltura() {
+            let opcao;
+            do {
+                opcao = prompt("Escolha uma opção:\n1. Cadastrar Pessoas\n2. Exibir Pessoas <= 1.5m\n3. Exibir Pessoas > 1.5m\n4. Exibir Pessoas entre 1.5m e 2.0m\n5. Média das Alturas\n6. Sair");
+                
+                switch(opcao) {
+                    case "1":
+                        cadastrarAltura();
+                        break;
+                    case "2":
+                        exibirMenorQue1_5();
+                        break;
+                    case "3":
+                        exibirMaiorQue1_5();
+                        break;
+                    case "4":
+                        exibirEntre1_5_2();
+                        break;
+                    case "5":
+                        calcularMediaAltura();
+                        break;
+                    case "6":
+                        alert("Saindo...");
+                        break;
+                    default:
+                        alert("Opção inválida!");
+                }
+            } while (opcao !== "6");
+        }
+
+        // Exibir Menor que 1.5
+        function exibirMenorQue1_5() {
+            let filtro = pessoasAltura.filter(p => p.altura <= 1.5);
+            let lista = filtro.map(p => `Nome: ${p.nome}\nAltura: ${p.altura}`).join("\n\n");
+            alert(lista);
+        }
+
+        // Exibir Maior que 1.5
+        function exibirMaiorQue1_5() {
+            let filtro = pessoasAltura.filter(p => p.altura > 1.5);
+            let lista = filtro.map(p => `Nome: ${p.nome}\nAltura: ${p.altura}`).join("\n\n");
+            alert(lista);
+        }
+
+        // Exibir entre 1.5 e 2.0m
+        function exibirEntre1_5_2() {
+            let filtro = pessoasAltura.filter(p => p.altura > 1.5 && p.altura < 2.0);
+            let lista = filtro.map(p => `Nome: ${p.nome}\nAltura: ${p.altura}`).join("\n\n");
+            alert(lista);
+        }
+
+        // Calcular a média das alturas
+        function calcularMediaAltura() {
+            let soma = pessoasAltura.reduce((total, pessoa) => total + pessoa.altura, 0);
+            alert(`Média das alturas: ${(soma / pessoasAltura.length).toFixed(2)}`);
+        }
+
+        // Cadastro de Funcionários
+        let funcionarios = [];
+        function cadastrarFuncionario() {
+            for (let i = 0; i < 20; i++) {
+                let matricula = prompt(`Digite a matrícula do funcionário ${i + 1}:`);
+                let nome = prompt(`Digite o nome do funcionário ${i + 1}:`);
+                let salario = parseFloat(prompt(`Digite o salário do funcionário ${i + 1}:`));
+                
+                funcionarios.push({ matricula, nome, salario });
+            }
+        }
+
+        // Menu para Funcionários
+        function menuFuncionario() {
+            let opcao;
+            do {
+                opcao = prompt("Escolha uma opção:\n1. Cadastrar Funcionários\n2. Pesquisar Funcionário\n3. Exibir > R$1000\n4. Exibir < R$1000\n5. Exibir = R$1000\n6. Sair");
+                
+                switch(opcao) {
+                    case "1":
+                        cadastrarFuncionario();
+                        break;
+                    case "2":
+                        let matricula = prompt("Digite a matrícula para pesquisar:");
+                        pesquisarFuncionario(matricula);
+                        break;
+                    case "3":
+                        exibirAcimaDe1000();
+                        break;
+                    case "4":
+                        exibirAbaixoDe1000();
+                        break;
+                    case "5":
+                        exibirIgualA1000();
+                        break;
+                    case "6":
+                        alert("Saindo...");
+                        break;
+                    default:
+                        alert("Opção inválida!");
+                }
+            } while (opcao !== "6");
+        }
+
+        // Pesquisa Funcionário
+        function pesquisarFuncionario(matricula) {
+            let funcionario = funcionarios.find(f => f.matricula == matricula);
+            if (funcionario) {
+                alert(`Matrícula: ${funcionario.matricula}\nNome: ${funcionario.nome}\nSalário: ${funcionario.salario}`);
+            } else {
+                alert("Funcionário não encontrado!");
+            }
+        }
+
+        // Exibir Funcionários Acima de 1000
+        function exibirAcimaDe1000() {
+            let filtro = funcionarios.filter(f => f.salario > 1000);
+            let lista = filtro.map(f => `Matrícula: ${f.matricula}\nNome: ${f.nome}\nSalário: ${f.salario}`).join("\n\n");
+            alert(lista);
+        }
+
+        // Exibir Funcionários Abaixo de 1000
+        function exibirAbaixoDe1000() {
+            let filtro = funcionarios.filter(f => f.salario < 1000);
+            let lista = filtro.map(f => `Matrícula: ${f.matricula}\nNome: ${f.nome}\nSalário: ${f.salario}`).join("\n\n");
+            alert(lista);
+        }
+
+        // Exibir Funcionários com Salário Igual a 1000
+        function exibirIgualA1000() {
+            let filtro = funcionarios.filter(f => f.salario === 1000);
+            let lista = filtro.map(f => `Matrícula: ${f.matricula}\nNome: ${f.nome}\nSalário: ${f.salario}`).join("\n\n");
+            alert(lista);
+        }
+    </script>
+
+</body>
+</html>
